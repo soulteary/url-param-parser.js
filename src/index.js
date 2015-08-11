@@ -6,12 +6,16 @@
  * @returns {*}
  */
 function getParams(url, skipHashParams) {
+    // 如果缺少地址参数，抛出异常。
     if (!url) {
-        return null;
+        throw 'Need URL Params.';
     }
 
+    // 保存解析结果
     var params;
+
     /**
+     * Hash请求可能存在的情况
      * 1 abc#1      =》  1
      * 2 abc##1     =》  skip
      * 3 abc#       =》  skip
@@ -21,8 +25,11 @@ function getParams(url, skipHashParams) {
      * 7 #          =》  skip
      * 8 ###        =》  skip
      */
+    // 获取URL中Hash符号的位置
     var hashPos = url.indexOf('#');
+    // 尝试保留URL中的QueryString的位置
     var uriQuery = url.substr(0, hashPos);
+    // 保存解析的Hash内容
     var hashQuery;
 
     function parse(data) {
@@ -74,34 +81,40 @@ function getParams(url, skipHashParams) {
         return result;
     }
 
+    // 如果用户指定不解析Hash参数内容
     if (skipHashParams) {
         hashQuery = '';
     } else {
+        // 如果存在Hash符号，并且存在唯一Hash符号时，保存Hash内容
         if (hashPos !== -1 && url.lastIndexOf('#') === url.indexOf('#')) {
             hashQuery = url.substr(hashPos + 1);
         } else {
-            // skip 2,4,6,8
+            // 不处理以下情况: 2,4,6,8
             hashQuery = '';
         }
     }
+    // 保存处理后的Hash结果
     params = {
         uri  : uriQuery,
         hash : parse(hashQuery)
     };
 
     /**
+     * QueryString可能存在的情况
      * 1 ??abc?ver=1    =>  ver=1
      * 2 ?abc           =>  abc
      * 3 ???abc         =>  abc
-     *
      */
+    // QueryString符号位置
     var queryPos = params.uri.lastIndexOf('?');
+    // 如果不存在符号
     if (queryPos === -1) {
         return params;
     }
-
+    // 获取QueryString内容
     params.uri = params.uri.substr(queryPos + 1);
 
+    //?
     if (params.uri === -1) {
         return params;
     }
