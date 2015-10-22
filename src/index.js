@@ -28,7 +28,7 @@ function getParams(url, skipHashParams) {
     // 获取URL中Hash符号的位置
     var hashPos = url.indexOf('#');
     // 尝试保留URL中的QueryString的位置
-    var uriQuery = url.substr(0, hashPos);
+    var uriQuery = url.substr(0, hashPos === -1 ? url.length: hashPos);
     // 保存解析的Hash内容
     var hashQuery;
 
