@@ -1,4 +1,4 @@
-## URL-Params.js(building...)
+## URL-Param-Parser.js
 
 We often need convert the string to object from URL, eg: QueryString, Hash, AJAX crawling scheme...
 
