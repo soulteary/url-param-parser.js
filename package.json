@@ -1,5 +1,5 @@
 {
-    "name": "url-params.js",
+    "name": "url-param-parser",
     "description": "Parse URL params.",
     "author": "soulteary",
     "version": "0.0.2",
